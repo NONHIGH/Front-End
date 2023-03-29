@@ -7,6 +7,9 @@ import { BannerComponent } from './components/banner/banner.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AboutMeComponent } from './components/about-me/about-me.component';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { EducationComponent } from './components/about-me/education/education.component';
+import { ExperienceComponent } from './components/about-me/experience/experience.component';
+import { AbilitiesComponent } from './components/about-me/abilities/abilities.component';
 
 
 @NgModule({
@@ -14,7 +17,10 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     AppComponent,
     BannerComponent,
     HeaderComponent,
-    AboutMeComponent
+    AboutMeComponent,
+    EducationComponent,
+    ExperienceComponent,
+    AbilitiesComponent
   ],
   imports: [
     BrowserModule,
