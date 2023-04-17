@@ -10,6 +10,11 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { EducationComponent } from './components/about-me/education/education.component';
 import { ExperienceComponent } from './components/about-me/experience/experience.component';
 import { AbilitiesComponent } from './components/about-me/abilities/abilities.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HttpClientModule } from '@angular/common/http';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
 
 
 @NgModule({
@@ -20,7 +25,11 @@ import { AbilitiesComponent } from './components/about-me/abilities/abilities.co
     AboutMeComponent,
     EducationComponent,
     ExperienceComponent,
-    AbilitiesComponent
+    AbilitiesComponent,
+    NotFoundComponent,
+    FooterComponent,
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +52,8 @@ import { AbilitiesComponent } from './components/about-me/abilities/abilities.co
       showSubtitle:false,
       imageHeight:40,
       imageWidth:40
-    })
+    }),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

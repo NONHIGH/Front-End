@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="row">
+        <div class="col" >
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">nomre</th>
+                    <th scope="col">apellido</th>
+                    <th scope="col">educacion</th>
+                    <th scope="col">Experiencia</th>
+                    <th scope="col">IMAGEN</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let u of users">
+                    <th scope="row" >{{u.id}}</th>
+                    <td>{{u.nombre}}</td>
+                    <td>{{u.apellido}}</td>
+                    <td>{{u.educacion}}</td>
+                    <td>{{u.expLab}}</td>
+                    <td>{{u.imagen}}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+        <div class="col">
+            <p>Hola soy {{user.nombre}} {{user.apellido}}</p>
+        </div>
+    </div>
+</div>
+
+
+
