@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
         this.toastr.success('Usuario autenticado', 'Login', {timeOut:4000});
       },
       error: (error)=>{
-        this.toastr.success(error.error.message, 'Login', {timeOut: 4000});
+        this.toastr.error(error.error.message, 'Login', {timeOut: 4000});
       }
     })
   }

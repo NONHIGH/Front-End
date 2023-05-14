@@ -52,7 +52,6 @@ export class EducationComponent implements OnInit {
   }
   seleccionarEdu(edu:Educacion){
     this.eduSeleccionada = edu;
-    console.log(edu);
     
   }
 
@@ -130,16 +129,19 @@ export class EducationComponent implements OnInit {
       }
     })
   }
-  deleteEdu(idEdu:number){
-    this.educacionService.deleteEdu(idEdu).subscribe({
-      next: ()=>{
-        this.toast.success('Se eliminó correctamente', 'Educación', {timeOut:4000});
-        this.initEducacionesUser();
-      },
-      error: ()=>{
-        this.toast.error('No se pudo eliminar', 'Educación', {timeOut:4000});
-      }
-    });
+  deleteEdu(){
+    if(this.eduSeleccionada){
+      this.educacionService.deleteEdu(this.eduSeleccionada.id).subscribe({
+        next: ()=>{
+          this.toast.success('Se eliminó correctamente', 'Educación', {timeOut:4000});
+          this.initEducacionesUser();
+        },
+        error: ()=>{
+          this.toast.error('No se pudo eliminar', 'Educación', {timeOut:4000});
+        }
+      });
+    }
+    
   }
 
 

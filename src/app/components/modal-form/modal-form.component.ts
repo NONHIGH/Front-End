@@ -18,6 +18,7 @@ export class ModalFormComponent {
 
   @Output() save = new EventEmitter<any>();
   @Output() imagen = new EventEmitter<File>();
+  @Output() delete = new EventEmitter<void>();
 
   formGroup!: FormGroup;
   imagenSeleccionada?: File;
@@ -36,13 +37,19 @@ export class ModalFormComponent {
     if (this.formGroup.valid) {
       const formValue = this.formGroup.value;
       this.save.emit(formValue);
+      this.formGroup.reset();
+    }
+  }
+
+  onDelete(){
+    if(confirm("¿Estas seguro?")){
+      this.delete.emit();
     }
   }
 
   backToFirst() {
     const buttonElement = this.elementRef.nativeElement.querySelector('#back-to-first-button');
     buttonElement.setAttribute('data-bs-target', '#' + this.id);
-    console.log('hola')
   }
   onImageSelected(event: any): void {
     this.imagenSeleccionada = event.target.files[0];

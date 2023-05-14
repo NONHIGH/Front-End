@@ -50,6 +50,6 @@ export class ExperienciaService {
   }
 
   deleteExp(idExp:number){
-    return this.http.delete(`${this.api}/delete/${idExp}`);
+    return this.http.delete(`${this.api}/deleteExp/${idExp}`);
   }
 }

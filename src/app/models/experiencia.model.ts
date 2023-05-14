@@ -1,7 +1,7 @@
 export class Experiencia{
     id!:number;
-    rol!:string;
-    lugarDeTrabajo!:string;
+    tituloTrabajo!:string;
+    lugarTrabajo!:string;
     fechaInicio!:Date;
     fechaFinalizacion!:Date;
     logoEmpresa!:any;

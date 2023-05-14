@@ -5,7 +5,7 @@
       class="col-sm-12 col-md-4 col-lg-4 col-xl-3 col-xxl-3"
       *ngFor="let exp of experiencias; let i = index"
     >
-      <div class="card">
+      <div class="card mb-3">
         <img
           [src]="imagenes[i]"
           class="card-img-top"
@@ -22,12 +22,11 @@
             (click)="seleccionarExp(exp)"
           ></span>
           <app-modal-form [id]="'editarExp'" [title]="'Editar experiencia'" [formLabel1]="'Nombre del lugar de trabajo'"
-        [formLabel2]="'Rol del trabajo'" [formControl1]="'lugarTrabajo'" [formControl2]="'rolTrabajo'" [startDate]="'fechaInicio'" [endDate]="'fechaFinalizacion'" (save)="editExp($event)" (imagen)="editImageExp($event)"></app-modal-form>
-       
+        [formLabel2]="'Rol del trabajo'" [formControl1]="'lugarTrabajo'" [formControl2]="'rolTrabajo'" [startDate]="'fechaInicio'" [endDate]="'fechaFinalizacion'" (save)="editExp($event)" (imagen)="editImageExp($event)" (delete)="deleteExp()"></app-modal-form>
         <div class="card-body">
-          <h5 class="card-title"><p class="text-decoration-underline">Puesto: </p>{{ exp.rol }}</h5>
+          <h5 class="card-title"><p class="text-decoration-underline">Puesto: </p>{{ exp.tituloTrabajo  }}</h5>
           <p class="card-text">
-            Trabaje en {{exp.lugarDeTrabajo}} durante 
+            Trabaje en {{exp.lugarTrabajo}} durante 
           </p>
           <p class="card-text">
             <small class="text-muted">Fecha de inicio: {{ exp.fechaInicio | date }}</small>

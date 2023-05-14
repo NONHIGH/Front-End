@@ -5,7 +5,7 @@
       class="col-sm-12 col-md-4 col-lg-4 col-xl-3 col-xxl-3"
       *ngFor="let educacion of educaciones; let i = index"
     >
-      <div class="card">
+      <div class="card mb-3">
         <img
           [src]="imagenes[i]"
           class="card-img-top"
@@ -22,7 +22,7 @@
             (click)="seleccionarEdu(educacion)"
           ></span>
           <app-modal-form [id]="'editarEdu'" [title]="'Editar educación'" [formLabel1]="'Nombre de la institución'"
-        [formLabel2]="'Titulo adquirido al finalizar'" [formControl1]="'nombreInstitucion'" [formControl2]="'titulo'" [startDate]="'fechaInicio'" [endDate]="'fechaFinalizacion'" (save)="editEdu($event)" (imagen)="editImageEdu($event)"></app-modal-form>
+        [formLabel2]="'Titulo adquirido al finalizar'" [formControl1]="'nombreInstitucion'" [formControl2]="'titulo'" [startDate]="'fechaInicio'" [endDate]="'fechaFinalizacion'" (save)="editEdu($event)" (imagen)="editImageEdu($event)" (delete)="deleteEdu()"></app-modal-form>
        
         <div class="card-body">
           <h5 class="card-title"><p class="text-decoration-underline">Titulo: </p>{{ educacion.titulo }}</h5>

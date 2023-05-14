@@ -21,6 +21,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { TokenInterceptor } from './services/auth-interceptor/auth-interceptor.interceptor';
 import { ModalComponent } from './components/modal/modal.component';
 import { ModalFormComponent } from './components/modal-form/modal-form.component';
+import { ProjectsComponent } from './components/about-me/projects/projects.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { ModalFormComponent } from './components/modal-form/modal-form.component
     LoginComponent,
     RegisterComponent,
     ModalComponent,
-    ModalFormComponent
+    ModalFormComponent,
+    ProjectsComponent
   ],
   imports: [
     BrowserModule,

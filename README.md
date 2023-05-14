@@ -25,3 +25,28 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+# FrontEnd
+
+Breve descripción de la aplicación
+
+## Instalación
+
+1. Clonar el repositorio
+2. Ejecutar `npm install` en la carpeta raíz
+3. Ejecutar `ng serve` para iniciar la aplicación
+
+## Uso
+
+Este es una app que representa mi educación y experiencia laboral para que las personas puedan saber de manera efectiva quien soy.
+Al ejecutar la app por primera vez se verá la página principal, en el navbar podrá ver un boton de login que redirigira hacia un registro o login, al registrarse e iniciar sesión podrá editar sus vista como la experiencia, educación y datos de usuario, haciendo click en el lapíz del navbar.
+
+
+## Autor
+
+- Angel Bryan
+- https://github.com/NONHIGH
+
+## Licencia
+
+Aún sin licencia.

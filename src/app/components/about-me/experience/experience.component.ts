@@ -152,19 +152,21 @@ export class ExperienceComponent implements OnInit {
       },
     });
   }
-  deleteExp(idExp: number) {
-    this.expService.deleteExp(idExp).subscribe({
-      next: () => {
-        this.toast.success('Se eliminó correctamente', 'Experiencia', {
-          timeOut: 4000,
-        });
-        this.initExpUser();
-      },
-      error: () => {
-        this.toast.error('No se pudo eliminar', 'Experiencia', {
-          timeOut: 4000,
-        });
-      },
-    });
+  deleteExp() {
+    if (this.expSeleccionada) {
+      this.expService.deleteExp(this.expSeleccionada.id).subscribe({
+        next: () => {
+          this.toast.success('Se eliminó correctamente', 'Experiencia', {
+            timeOut: 4000,
+          });
+          this.initExpUser();
+        },
+        error: (error) => {
+          this.toast.error('No se pudo eliminar', 'Experiencia', {
+            timeOut: 4000,
+          });
+        },
+      });
+    }
   }
 }

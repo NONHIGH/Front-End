@@ -1,0 +1,26 @@
+<div class="container-fluid">
+    <h2 class="text-decoration-underline text-center">Proyectos</h2>
+    <div class="row">
+      <div
+        class="col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 p-3"
+        *ngFor="let proyecto of proyectos"
+        data-bs-theme="dark"
+      >
+        <a href="{{ proyecto.code }}" target="_blank">
+          <div
+            class="card"
+            style="
+              background-image: url('https://www.xtrafondos.com/wallpapers/cielo-estrellado-en-montanas-nevadas-3355.jpg');
+            "
+          >
+            <img src="{{ proyecto.imagen }}" alt="image" class="card-img-top" width="auto" height="400" />
+            <div class="card-body">
+              <h5 class="card-title">{{ proyecto.titulo }}</h5>
+              <p class="card-text">{{ proyecto.descripcion }}</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  
