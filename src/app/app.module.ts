@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,10 +14,13 @@ import { EducationComponent } from './components/about-me/education/education.co
 import { ExperienceComponent } from './components/about-me/experience/experience.component';
 import { AbilitiesComponent } from './components/about-me/abilities/abilities.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { TokenInterceptor } from './services/auth-interceptor/auth-interceptor.interceptor';
+import { ModalComponent } from './components/modal/modal.component';
+import { ModalFormComponent } from './components/modal-form/modal-form.component';
 
 
 @NgModule({
@@ -27,9 +33,11 @@ import { LoginComponent } from './components/login/login.component';
     ExperienceComponent,
     AbilitiesComponent,
     NotFoundComponent,
-    FooterComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
+    ModalComponent,
+    ModalFormComponent
   ],
   imports: [
     BrowserModule,
@@ -53,9 +61,13 @@ import { LoginComponent } from './components/login/login.component';
       imageHeight:40,
       imageWidth:40
     }),
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

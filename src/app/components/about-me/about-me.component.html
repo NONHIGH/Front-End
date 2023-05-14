@@ -1,40 +1,174 @@
-<main id="#0">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-3">
-                <img src="./assets/photo.png" alt="" class="rounded-circle border border-secondary border-5 position-relative posicion" width="auto" height="150">
-                <label for="">Luis Roman <br> Angel Bryan</label>
-                <h5>Full Stack Developer Jr</h5>
-            </div>
-            <div class="col-2"></div>
-            <div class="col-7 rounded-circle border-primary">
-                <h4>Información personal: </h4>
-                <p>
-                    maiores minus neque iste. Delectus repellat temporibus aspernatur vel quibusdam sed illo, veniam sequi reprehenderit rerum harum aut, praesentium sunt voluptates omnis accusantium, fugit iste expedita libero. Consectetur.
-                    Quod numquam repellat similique eum libero, autem ab ut architecto molestias obcaecati cupiditate ipsa excepturi qui! Cumque nobis quis, nihil veritatis nemo cum delectus sed aliquid maxime saepe inventore! Dicta.
-                    
-                </p>
-            </div>
+<main>
+  <div class="container">
+    <div class="row">
+      <div class="col-3">
+        <div class="position-relative">
+          <img
+            [src]="imagen"
+            alt=""
+            class="rounded-circle border border-secondary border-5 position-relative posicion"
+            width="auto"
+            height="150"
+          />
+          <span
+            *ngIf="editService.editMode$ | async"
+            class="bi bi-pencil-square position-absolute top-50 start-50 translate-middle text-center"
+            style="font-size: 2rem"
+            data-bs-toggle="modal"
+            data-bs-target="#modalImagen"
+          ></span>
         </div>
+        <div class="">
+          <label
+          class="d-flex align-items-center"
+            >{{ user?.nombre }}
+            <span
+              *ngIf="editService.editMode$ | async"
+              class="bi bi-pencil-square ms-2 fs-3"
+              data-bs-toggle="modal"
+              data-bs-target="#modalNombre"
+            ></span>
+          </label>
+
+          <app-modal
+            [id]="'modalNombre'"
+            [title]="'Nombre'"
+            (save)="editUsername($event)"
+          ></app-modal>
+        </div>
+        <div class="">
+          <label class="d-flex align-items-center"
+            >{{ user?.apellido }}
+            <span
+              *ngIf="editService.editMode$ | async"
+              class="bi bi-pencil-square ms-2 fs-3"
+              data-bs-toggle="modal"
+              data-bs-target="#modalApellido"
+            ></span>
+          </label>
+          <app-modal
+            [id]="'modalApellido'"
+            [title]="'Apellido'"
+            (save)="editUserLastname($event)"
+          ></app-modal>
+        </div>
+        <div class="">
+          <h5 class="d-flex align-items-center">
+            {{ user?.titulo || "Sin título" }}
+            <span
+              *ngIf="editService.editMode$ | async"
+              class="bi bi-pencil-square ms-2 fs-3"
+              data-bs-toggle="modal"
+              data-bs-target="#modalTitulo"
+            ></span>
+            <app-modal
+              [id]="'modalTitulo'"
+              [title]="'Titulo'"
+              (save)="editUserTitle($event)"
+            ></app-modal>
+          </h5>
+        </div>
+      </div>
+      <div class="col-2"></div>
+      <div class="col-7">
+        <div class="card my-2">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
+            <h4 class="card-title">Sobre mí</h4>
+            <span
+              *ngIf="editService.editMode$ | async"
+              class="bi bi-pencil-square fs-3"
+              data-bs-toggle="modal"
+              data-bs-target="#modalDescripcion"
+            ></span>
+          </div>
+          <div class="card-body">
+            <p class="card-text">
+              {{ user?.descripcion || "Sin descripción" }}
+            </p>
+          </div>
+          <app-modal
+            [id]="'modalDescripcion'"
+            [title]="'Descripción'"
+            (save)="editDescripcion($event)"
+          ></app-modal>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <app-abilities></app-abilities>
-    
-    
-
-
-
-    <!-- Se escribira a continuacion mi experiencia laboral  -->
-
-    <app-experience></app-experience>
+  <hr>
+  <app-experience></app-experience>
+  <hr>
+  <app-education></app-education>
+  <hr>
+  <app-abilities></app-abilities>
 
 
-    
 
-
-    <a href="#up" class="btnUp" >
-        <img src="./assets/icons/move-up.png" alt=""  width="auto" height="60" class="">
-    </a>
+  <a (click)="up()" class="btnUp">
+    <img src="./assets/icons/move-up.png" alt="up" width="auto" height="60" />
+  </a>
 </main>
 
 
+
+<div
+  class="modal fade"
+  id="modalImagen"
+  tabindex="-1"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  role="dialog"
+  aria-labelledby="modalImage"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitleId">Editar Imagen</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <form>
+            <label for="imagen" class="form-label">Choose file</label>
+            <input
+              type="file"
+              class="form-control"
+              name="imagen"
+              id="imagen"
+              placeholder=""
+              aria-describedby="fileHelpId"
+              accept="image/png"
+              (change)="onFileChange($event)"
+            />
+            <div id="fileHelpId" class="form-text">Elija su imagen</div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          cancelar
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          (click)="editUserImage()"
+          data-bs-dismiss="modal"
+        >
+          Guardar cambio
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

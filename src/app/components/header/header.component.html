@@ -1,4 +1,4 @@
-<div class="" id="up"></div>
+<div class="" id="btnUp"></div>
 <header class="bg-purple sticky-top">
   <div class="container-fluid">
     <div class="container-fluid">
@@ -82,10 +82,41 @@
               <hr class="d-lg-none my-2 text-white-50" />
             </li>
             <li>
-              <a href="#" class="nav-item">
+              <a *ngIf="authService.isLogged()" href="#" class="nav-item" (click)="logOut()">
                 <img
                   src="./assets/logout.png"
                   alt="LogOut"
+                  width="auto"
+                  height="25"
+                />
+              </a>
+            </li>
+            <li>
+              <a *ngIf="!authService.isLogged()" class="nav-item">
+                <img
+                  src="./assets/icons/login.png"
+                  alt="login"
+                  width="auto"
+                  height="25"
+                  data-bs-toggle="modal" data-bs-target="#modalOption"
+                />
+              </a>
+            </li>
+            <li>
+              <a *ngIf="editService.editMode$ |async" class="nav-item" (click)="disableEditMode()">
+                <img
+                  src="./assets/icons/success.png"
+                  alt="hecho"
+                  width="auto"
+                  height="25"
+                />
+              </a>
+            </li>
+            <li>
+              <a *ngIf="!(editService.editMode$ |async) && authService.isLogged()" class="nav-item" (click)="editMode()">
+                <img
+                  src="./assets/icons/edit.png"
+                  alt="edit"
                   width="auto"
                   height="25"
                 />
@@ -97,3 +128,22 @@
     </div>
   </div>
 </header>
+
+
+<div class="modal fade" id="modalOption" tabindex="-1" aria-labelledby="option" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="option">Bienvenido</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Por favor inicie sesión o regístrese para continuar</p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary" href="/login" role="button">Iniciar sesión</a>
+        <a class="btn btn-secondary" href="/register" role="button">Registrarse</a>
+      </div>
+    </div>
+  </div>
+</div>

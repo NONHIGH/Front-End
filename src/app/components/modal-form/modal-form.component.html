@@ -1,0 +1,93 @@
+<div class="modal" tabindex="-1" [id]="id">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ title }}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formGroup">
+          <div class="form-group">
+            <label for="{{ id }}-{{ formControl1 }}">{{ formLabel1 }}</label>
+            <input
+              type="text"
+              class="form-control"
+              [formControlName]="formControl1"
+            />
+          </div>
+          <div class="form-group">
+            <label for="{{ id }}-{{ formControl2 }}">{{ formLabel2 }}</label>
+            <input
+              type="text"
+              class="form-control"
+              [formControlName]="formControl2"
+            />
+          </div>
+          <div class="form-group">
+            <label for="{{ id }}-{{ startDate }}">Fecha de inicio</label>
+            <input
+              type="date"
+              class="form-control"
+              [formControlName]="startDate"
+            />
+          </div>
+          <div class="form-group">
+            <label for="{{ id }}-{{ endDate }}">Fecha de finalización</label>
+            <input
+              type="date"
+              class="form-control"
+              [formControlName]="endDate"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="d-grid gap-3" *ngIf="title?.includes('Editar')"><button class="btn btn-outline-primary ms-1 mx-1" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"> Editar imagen</button></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="save.emit(formGroup.value)"
+          data-bs-dismiss="modal" [disabled]="formGroup.invalid"
+          (click)="onSubmit()"
+        >
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Editar imagen</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="imageInput">Seleccionar imagen</label>
+            <input type="file" id="imageInput" (change)="onImageSelected($event)" accept="image/png" />
+          </div>
+          <div>
+            <button class="btn btn-outline-success" (click)="emitirImagen()" data-bs-dismiss="modal">Actualizar imagen</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button #backToFirstButton id="back-to-first-button" data-bs-toggle="modal" class="btn btn-primary" (click)="backToFirst()">Volver al formulario</button>
+      </div>
+    </div>
+  </div>
+</div>

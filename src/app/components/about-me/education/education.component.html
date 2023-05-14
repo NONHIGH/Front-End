@@ -1,8 +1,51 @@
-Escuela de Educación Secundaria Técnica N°1 Javier Tapié
-2019 - 2022
-Modalidad Electrónica.  
- 
-Escuela 21007 FELIX B. CARDENAS - CRUZ BLANCA
-2015 - 2015
-Primaria
-
+<div class="container">
+    <h2 class="text-decoration-underline text-center mt-3 mb-3">Educación</h2>
+  <div class="row">
+    <div
+      class="col-sm-12 col-md-4 col-lg-4 col-xl-3 col-xxl-3"
+      *ngFor="let educacion of educaciones; let i = index"
+    >
+      <div class="card">
+        <img
+          [src]="imagenes[i]"
+          class="card-img-top"
+          alt="imagen"
+          width="200"
+          height="auto"
+        />
+        <span
+            *ngIf="editService.editMode$ | async"
+            class="bi bi-pencil-square position-absolute top-50 start-50 translate-middle text-center"
+            style="font-size: 2rem"
+            data-bs-toggle="modal"
+            data-bs-target="#editarEdu"
+            (click)="seleccionarEdu(educacion)"
+          ></span>
+          <app-modal-form [id]="'editarEdu'" [title]="'Editar educación'" [formLabel1]="'Nombre de la institución'"
+        [formLabel2]="'Titulo adquirido al finalizar'" [formControl1]="'nombreInstitucion'" [formControl2]="'titulo'" [startDate]="'fechaInicio'" [endDate]="'fechaFinalizacion'" (save)="editEdu($event)" (imagen)="editImageEdu($event)"></app-modal-form>
+       
+        <div class="card-body">
+          <h5 class="card-title"><p class="text-decoration-underline">Titulo: </p>{{ educacion.titulo }}</h5>
+          <p class="card-text">
+            Estudie en {{educacion.nombreInstitucion}}
+          </p>
+          <p class="card-text">
+            <small class="text-muted">Fecha de inicio: {{ educacion.fechaInicio | date }}</small>
+          </p>
+          <p class="card-text">
+            <small class="text-muted">Fecha de finalización {{ educacion.fechaFinalizacion | date}}</small>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="editService.editMode$ | async" class="card col-sm-12 col-md-4 col-lg-4 col-xl-3 col-xxl-3" data-bs-toggle="modal"
+    data-bs-target="#crearEdu">
+        <img src="./assets/icons/mas.png" alt="add" class="card-img-top" width="150" height="auto">
+        <div class="card-body">
+          <h4 class="card-text">Puedes agregar una nueva educación</h4>
+        </div>
+      </div>
+  </div>
+</div>
+<app-modal-form [id]="'crearEdu'" [title]="'Crear educación'" [formLabel1]="'Nombre de la institución'"
+ [formLabel2]="'Titulo adquirido al finalizar'" [formControl1]="'nombreInstitucion'" [formControl2]="'titulo'" [startDate]="'fechaInicio'" [endDate]="'fechaFinalizacion'" (save)="postEdu($event)"></app-modal-form> 

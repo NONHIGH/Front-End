@@ -4,4 +4,5 @@ export class Experiencia{
     lugarDeTrabajo!:string;
     fechaInicio!:Date;
     fechaFinalizacion!:Date;
+    logoEmpresa!:any;
 }

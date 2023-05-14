@@ -1,74 +1,57 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { environment } from 'src/environment/environments';
-import { HttpClient, HttpErrorResponse} from '@angular/common/http';
+import { AuthenticationService } from '../auth/authentication.service';
 import { Persona } from 'src/app/models/persona.model';
-
+import { Observable } from 'rxjs';
+import { environment } from 'src/environment/environments';
+import { ResponseOk } from 'src/app/models/response-ok';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PersonaService {
 
-  constructor(private readonly http:HttpClient) { }
+  idUsuario!: string;
+  api = environment.api + '/user';
 
-  ApiRest= environment.api;
-
-  getUsers():Observable<Persona[]>{
-    return this.http.get(`${this.ApiRest}/user/getAll`, { withCredentials: true })
-      .pipe(
-        map((response: any) => { // Cambiar el tipo de response a 'any' si no estás seguro de la estructura exacta de la respuesta del servidor
-          // Mapear los datos del servidor a un array de objetos Usuario
-          const users: Persona[] = response.map((data: any) => { // Cambiar el tipo de data a 'any' si no estás seguro de la estructura exacta de la respuesta del servidor
-            return {
-              id: data.id,
-              nombre: data.nombre,
-              apellido: data.apellido,
-              imagen: data.imagen,
-              expLab: data.expLab,
-              educacion: data.educacion
-            } as Persona; // Utilizar 'as Usuario' para indicar que el objeto mapeado es de tipo Usuario
-          });
-          return users;
-        }),
-        catchError((error: HttpErrorResponse) => {
-          // Manejar el error de CORS
-          if (error.status === 0) {
-            console.error('Error de CORS: No se pudo conectar al servidor');
-          } else {
-            console.error('Otro error en la solicitud HTTP:', error);
-          }
-          // Lanzar un error observable para que el componente que llama pueda manejarlo
-          return throwError(error);
-        })
-      );
+  constructor(
+    private readonly http: HttpClient,
+    private readonly authService: AuthenticationService
+  ) {
+    this.authService.idUsuario$.subscribe({
+      next: (idUsuario) => {
+        this.idUsuario = idUsuario;
+      },
+    });
   }
-  getUser():Observable<Persona>{
-    return this.http.get(`${this.ApiRest}/user/get/1`, { withCredentials: true })
-      .pipe(
-        map((response: any) => {
-          return {
-              id: response.id,
-              nombre: response.nombre,
-              apellido: response.apellido,
-              imagen: response.imagen,
-              expLab: response.expLab,
-              educacion: response.educacion
-            } as Persona; 
-        }),
-        catchError((error: HttpErrorResponse) => {
-          // Manejar el error de CORS
-          if (error.status === 0) {
-            console.error('Error de CORS: No se pudo conectar al servidor');
-          } else {
-            console.error('Otro error en la solicitud HTTP:', error);
-          }
-          // Lanzar un error observable para que el componente que llama pueda manejarlo
-          return throwError(error);
-        })
-      );
+
+  getUserById(): Observable<Persona> {
+    return this.http.get<Persona>(`${this.api}/getUser/${this.idUsuario}`);
+  }
+
+  getUserImage(): Observable<Blob> {
+    return this.http.get(`${this.api}/getUserImage/${this.idUsuario}`, {
+      responseType: 'blob',
+    });
   }
 
 
+
+
+  editDescripcion(value:string):Observable<ResponseOk>{
+    return this.http.put<any>(`${this.api}/editDescripcion/${this.idUsuario}`,value);
+  }
+  editUsername(value:string):Observable<ResponseOk>{
+    return this.http.put<any>(`${this.api}/putUserName/${this.idUsuario}`,value);
+  }
+  editUserLastname(value:string):Observable<ResponseOk>{
+    return this.http.put<any>(`${this.api}/putUserLastName/${this.idUsuario}`,value);
+  }
+  editUserTitle(value:string):Observable<ResponseOk>{
+    return this.http.put<any>(`${this.api}/editTitulo/${this.idUsuario}`,value);
+  }
+  putUserImage(imagen: FormData) {
+    return this.http.put<any>(`${this.api}/putUserImage/${this.idUsuario}`,imagen);
+  }
+  
 }

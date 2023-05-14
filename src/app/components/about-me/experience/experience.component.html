@@ -1,58 +1,51 @@
 <div class="container">
-    <div class="rounded-circle enL text-center mb-5">
-        <label class="h3 ">Experiencia Laboral</label>
-    </div>
-    <div class="row">
-        <div class="col-4">
-            <div class="list-group" id="list-tab" role="tablist">
-            <a class="list-group-item list-group-item-action active" id="list-one-list" data-bs-toggle="list" href="#list-one" role="tab" aria-controls="list-home">Pasante de Tecnico electronico</a>
-            <a class="list-group-item list-group-item-action" id="list-second-list" data-bs-toggle="list" href="#list-second" role="tab" aria-controls="list-second">Mantenimiento y reparación de Pc's</a>
-            <a class="list-group-item list-group-item-action" id="list-third-list" data-bs-toggle="list" href="#list-third" role="tab" aria-controls="list-third">Ayudante de Albañil part-time</a>
-            </div>
+    <h2 class="text-decoration-underline text-center mt-3 mb-3">Experiencia</h2>
+  <div class="row">
+    <div
+      class="col-sm-12 col-md-4 col-lg-4 col-xl-3 col-xxl-3"
+      *ngFor="let exp of experiencias; let i = index"
+    >
+      <div class="card">
+        <img
+          [src]="imagenes[i]"
+          class="card-img-top"
+          alt="imagen"
+          width="200"
+          height="auto"
+        />
+        <span
+            *ngIf="editService.editMode$ | async"
+            class="bi bi-pencil-square position-absolute top-50 start-50 translate-middle text-center"
+            style="font-size: 2rem"
+            data-bs-toggle="modal"
+            data-bs-target="#editarExp"
+            (click)="seleccionarExp(exp)"
+          ></span>
+          <app-modal-form [id]="'editarExp'" [title]="'Editar experiencia'" [formLabel1]="'Nombre del lugar de trabajo'"
+        [formLabel2]="'Rol del trabajo'" [formControl1]="'lugarTrabajo'" [formControl2]="'rolTrabajo'" [startDate]="'fechaInicio'" [endDate]="'fechaFinalizacion'" (save)="editExp($event)" (imagen)="editImageExp($event)"></app-modal-form>
+       
+        <div class="card-body">
+          <h5 class="card-title"><p class="text-decoration-underline">Puesto: </p>{{ exp.rol }}</h5>
+          <p class="card-text">
+            Trabaje en {{exp.lugarDeTrabajo}} durante 
+          </p>
+          <p class="card-text">
+            <small class="text-muted">Fecha de inicio: {{ exp.fechaInicio | date }}</small>
+          </p>
+          <p class="card-text">
+            <small class="text-muted">Fecha de finalización {{ exp.fechaFinalizacion | date}}</small>
+          </p>
         </div>
-        <div class="col-8">
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="list-one" role="tabpanel" aria-labelledby="list-one-list">
-                    <div class="card">
-                        <img src="./assets/images/mantenimiento.jpg" class="card-img-top" alt="tecnico de mantenimiento industrial" width="auto" height="300">
-                        <div class="card-body">
-                            <h5 class="card-title">Mastellone Hnos. Planta Armonía</h5>
-                            <p class="card-text">
-                                <li>Mantenimiento predictivo, correctivo y preventivo de maquinaria industrial.</li>
-                                <li>Uso del programa mantec para los tipos de mantenimientos.</li>
-                                <li>Aplicacion de conocimientos tecnicos en maquinas en funcionamiento</li>
-                            </p>
-                            <p class="card-text"><small class="text-body-secondary">29/09/22 - 01/12/22</small></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="list-second" role="tabpanel" aria-labelledby="list-second-list">
-                    <div class="card">
-                        <img src="./assets/images/expTecnico.jpg" class="card-img-top" alt="tecnico de computadoras" width="auto" height="300">
-                        <div class="card-body">
-                            <h5 class="card-title">Autonomo</h5>
-                            <p class="card-text">
-                                <li>Atencion al cliente</li>
-                                <li>Reparacion y mantenimiento de computadoras y celulares. </li>
-                                <li>Microsoldadura</li>
-                                <li>Diagnostico de sistemas operativos y optimizacion</li>
-                            </p>
-                            <p class="card-text"><small class="text-body-secondary">10/01/21 - 20/05/22</small></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="list-third" role="tabpanel" aria-labelledby="list-third-list">
-                    <div class="card">
-                        <img src="./assets/images/albanil.jpg" class="card-img-top" alt="ayudante de albañil" width="auto" height="300">
-                        <div class="card-body">
-                            <h5 class="card-title">Partido de Tigre</h5>
-                            <p class="card-text"> {{helpAlbanil}} </p>
-                            <p class="card-text"><small class="text-body-secondary">05/22 - 07/22 </small></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
-    
+    <div *ngIf="editService.editMode$ | async" class="card col-sm-12 col-md-4 col-lg-4 col-xl-3 col-xxl-3" data-bs-toggle="modal"
+    data-bs-target="#crearExp">
+        <img src="./assets/icons/mas.png" alt="add" class="card-img-top" width="150" height="auto">
+        <div class="card-body">
+          <h4 class="card-text">Puedes agregar una nueva experiencia</h4>
+        </div>
+      </div>
+  </div>
 </div>
+<app-modal-form [id]="'crearExp'" [title]="'Crear experiencia'" [formLabel1]="'Nombre del lugar de trabajo'"
+ [formLabel2]="'Rol del trabajo'" [formControl1]="'lugarTrabajo'" [formControl2]="'rolTrabajo'" [startDate]="'fechaInicio'" [endDate]="'fechaFinalizacion'" (save)="postExp($event)"></app-modal-form> 
