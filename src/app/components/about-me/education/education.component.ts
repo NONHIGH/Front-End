@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { Educacion } from 'src/app/models/educacion.model';
+import { ResponseOk } from 'src/app/models/response-ok';
 import { AuthenticationService } from 'src/app/services/auth/authentication.service';
 import { EditService } from 'src/app/services/edit/edit.service';
 import { EducacionService } from 'src/app/services/educacion/educacion.service';
@@ -15,7 +15,7 @@ import { MainService } from 'src/app/services/notAuth/main.service';
 })
 export class EducationComponent implements OnInit {
   educaciones: Educacion[] = [];
-  imagenes : SafeUrl[] = [];
+  imagenes : string[]= [];
   formEdu! :FormGroup;
   eduSeleccionada : Educacion | null = null;
 
@@ -26,7 +26,6 @@ export class EducationComponent implements OnInit {
     private readonly mainService: MainService,
     private readonly toast: ToastrService,
     private readonly authService:AuthenticationService,
-    private readonly sanitizer:DomSanitizer,
     readonly editService:EditService,
     private readonly fB:FormBuilder
   ) {}
@@ -34,6 +33,7 @@ export class EducationComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm()
+    
     if(this.authService.isLogged()){
       this.initEducacionesUser();
       this.initForm();
@@ -61,11 +61,10 @@ export class EducationComponent implements OnInit {
         this.educaciones = edu;
         this.imagenes = [];
         edu.forEach((ed)=>{
+          
           this.educacionService.getImageEdu(ed.id).subscribe({
-            next: (imagen)=>{
-              const objectURL = URL.createObjectURL(imagen);
-              const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-              this.imagenes.push(safeUrl);
+            next: (imagen:ResponseOk)=>{
+              this.imagenes.push(imagen.message);
             }
           })
         })
@@ -80,9 +79,7 @@ export class EducationComponent implements OnInit {
         edu.forEach(ed=>{
           this.mainService.getEduImagenMain(ed.id).subscribe({
             next: (imagen)=>{
-              const objectURL = URL.createObjectURL(imagen);
-              const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-              this.imagenes.push(safeUrl);
+              this.imagenes.push(imagen.message);
             }
           })
         })
@@ -108,6 +105,7 @@ export class EducationComponent implements OnInit {
         next: ()=>{
           this.toast.info('Se ha editado correctamente','Educación',{timeOut:4000});
           this.initEducacionesUser();
+          this.eduSeleccionada = null;
         },
         error:()=>{
           this.toast.error('No se pudo editar la educación', 'Educación', {timeOut:4000});
@@ -119,15 +117,20 @@ export class EducationComponent implements OnInit {
   editImageEdu(imagen:File){
     const form = new FormData();
     form.append('imagen', imagen);
-    this.educacionService.editImageEdu(form,  this.eduSeleccionada!.id).subscribe({
-      next: () =>{
-        this.toast.info('Se actualizó la imagen', 'Educación', {timeOut:4000});
-        this.initEducacionesUser();
-      },
-      error: () =>{
-        this.toast.error('No se pudo cargar su imagen', 'Educación',{timeOut:5000});
-      }
-    })
+    if(this.eduSeleccionada){
+      this.educacionService.editImageEdu(form,  this.eduSeleccionada.id).subscribe({
+      
+        next: () =>{
+          this.toast.info('Se actualizó la imagen', 'Educación', {timeOut:4000});
+          this.initEducacionesUser();
+          this.eduSeleccionada = null;
+        },
+        error: () =>{
+          this.toast.error('No se pudo cargar su imagen', 'Educación',{timeOut:5000});
+        }
+      })
+    }
+    
   }
   deleteEdu(){
     if(this.eduSeleccionada){
@@ -135,6 +138,7 @@ export class EducationComponent implements OnInit {
         next: ()=>{
           this.toast.success('Se eliminó correctamente', 'Educación', {timeOut:4000});
           this.initEducacionesUser();
+          this.eduSeleccionada = null;
         },
         error: ()=>{
           this.toast.error('No se pudo eliminar', 'Educación', {timeOut:4000});

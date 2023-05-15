@@ -4,6 +4,7 @@ import { Experiencia } from 'src/app/models/experiencia.model';
 import { environment } from 'src/environment/environments';
 import { AuthenticationService } from '../auth/authentication.service';
 import { Observable } from 'rxjs';
+import { ResponseOk } from 'src/app/models/response-ok';
 
 @Injectable({
   providedIn: 'root'
@@ -31,10 +32,8 @@ export class ExperienciaService {
   }
 
 
-  getImageExp(idExp:number): Observable<Blob> {
-    return this.http.get(`${this.api}/getImageExp/${idExp}`, {
-      responseType: 'blob',
-    });
+  getImageExp(idExp:number): Observable<ResponseOk> {
+    return this.http.get<ResponseOk>(`${this.api}/getImageExp/${idExp}`);
   }
 
   postExp(form: Experiencia) {

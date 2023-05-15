@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Educacion } from 'src/app/models/educacion.model';
 import { Experiencia } from 'src/app/models/experiencia.model';
 import { Persona } from 'src/app/models/persona.model';
+import { ResponseOk } from 'src/app/models/response-ok';
 import { environment } from 'src/environment/environments';
 
 @Injectable({
@@ -16,8 +17,8 @@ export class MainService {
   getUserMain():Observable<Persona>{
     return this.http.get<Persona>(`${this.api}/main`);
   }
-  getUserImagenMain():Observable<Blob>{
-    return this.http.get(`${this.api}/getUserImage`, { responseType:'blob' });
+  getUserImagenMain():Observable<ResponseOk>{
+    return this.http.get<ResponseOk>(`${this.api}/getUserImage`);
   }
   getEduMain():Observable<Educacion[]>{
     return this.http.get<Educacion[]>(`${this.api}/mainEdu`);
@@ -26,10 +27,10 @@ export class MainService {
   getExpMain():Observable<Experiencia[]>{
     return this.http.get<Experiencia[]>(`${this.api}/mainExp`);
   }
-  getEduImagenMain(idEdu:number):Observable<Blob>{
-    return this.http.get(`${this.api}/mainImageEdu/${idEdu}`, { responseType:'blob' });
+  getEduImagenMain(idEdu:number):Observable<ResponseOk>{
+    return this.http.get<ResponseOk>(`${this.api}/mainImageEdu/${idEdu}`);
   }
-  getExpImagenMain(idExp:number):Observable<Blob>{
-    return this.http.get(`${this.api}/mainImageExp/${idExp}`, { responseType:'blob' });
+  getExpImagenMain(idExp:number):Observable<ResponseOk>{
+    return this.http.get<ResponseOk>(`${this.api}/mainImageExp/${idExp}`);
   }
 }

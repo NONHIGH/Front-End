@@ -29,10 +29,8 @@ export class PersonaService {
     return this.http.get<Persona>(`${this.api}/getUser/${this.idUsuario}`);
   }
 
-  getUserImage(): Observable<Blob> {
-    return this.http.get(`${this.api}/getUserImage/${this.idUsuario}`, {
-      responseType: 'blob',
-    });
+  getUserImage():Observable<ResponseOk> {
+    return this.http.get<ResponseOk>(`${this.api}/getUserImage/${this.idUsuario}`)
   }
 
 
@@ -50,8 +48,11 @@ export class PersonaService {
   editUserTitle(value:string):Observable<ResponseOk>{
     return this.http.put<any>(`${this.api}/editTitulo/${this.idUsuario}`,value);
   }
-  putUserImage(imagen: FormData) {
-    return this.http.put<any>(`${this.api}/putUserImage/${this.idUsuario}`,imagen);
+  putUserImage(imagen: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('imagen', imagen);
+  
+    return this.http.put<any>(`${this.api}/putUserImage/${this.idUsuario}`, formData);
   }
   
 }

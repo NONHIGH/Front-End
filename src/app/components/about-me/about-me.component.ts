@@ -15,7 +15,7 @@ import { PersonaService } from 'src/app/services/persona/persona.service';
 })
 export class AboutMeComponent implements OnInit {
   user?: Persona;
-  imagen?: SafeUrl;
+  imagen?: any;
 
   imagenEdicion?: any;
 
@@ -54,9 +54,7 @@ export class AboutMeComponent implements OnInit {
         this.user = user;
         this.mainService.getUserImagenMain().subscribe({
           next: (imagen) => {
-            const blob = new Blob([imagen], { type: 'image/png' });
-            const url = URL.createObjectURL(blob);
-            this.imagen = this.sanitizer.bypassSecurityTrustUrl(url);
+            this.imagen = imagen.message;
           },
         });
       },
@@ -67,11 +65,14 @@ export class AboutMeComponent implements OnInit {
     this.personaService.getUserById().subscribe({
       next: (next) => {
         this.user = next;
-        this.personaService.getUserImage().subscribe((response) => {
-          const blob = new Blob([response], { type: 'image/png' });
-          const url = URL.createObjectURL(blob);
-          this.imagen = this.sanitizer.bypassSecurityTrustUrl(url);
-        });
+        this.personaService.getUserImage().subscribe(
+          {
+            next: (next:ResponseOk)=>{
+              this.imagen = next.message;
+              
+            }
+          }
+        );
       },
     });
   }
@@ -139,11 +140,10 @@ export class AboutMeComponent implements OnInit {
   editUserImage() {
     if (!this.imagenfile) {
       this.toast.warning('Ingrese una imagen', 'Usuario', { timeOut: 10000 });
+      return;
     }
-
-    const userImage = new FormData();
-    userImage.append('imagen', this.imagenfile!);
-    this.personaService.putUserImage(userImage!).subscribe({
+  
+    this.personaService.putUserImage(this.imagenfile).subscribe({
       next: () => {
         this.toast.info('Se ha actualizado su foto de perfil', 'Usuario', {
           timeOut: 5000,

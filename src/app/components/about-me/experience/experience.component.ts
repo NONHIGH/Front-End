@@ -15,7 +15,7 @@ import { MainService } from 'src/app/services/notAuth/main.service';
 })
 export class ExperienceComponent implements OnInit {
   experiencias: Experiencia[] = [];
-  imagenes: SafeUrl[] = [];
+  imagenes: string[] = [];
   formExp!: FormGroup;
   expSeleccionada: Experiencia | null = null;
 
@@ -74,9 +74,7 @@ export class ExperienceComponent implements OnInit {
         exp.forEach((ex) => {
           this.expService.getImageExp(ex.id).subscribe({
             next: (imagen) => {
-              const objectURL = URL.createObjectURL(imagen);
-              const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-              this.imagenes.push(safeUrl);
+              this.imagenes.push(imagen.message);
             },
           });
         });
@@ -91,9 +89,7 @@ export class ExperienceComponent implements OnInit {
         exp.forEach((ex) => {
           this.mainService.getExpImagenMain(ex.id).subscribe({
             next: (imagen) => {
-              const objectURL = URL.createObjectURL(imagen);
-              const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-              this.imagenes.push(safeUrl);
+                this.imagenes.push(imagen.message);
             },
           });
         });
@@ -125,6 +121,8 @@ export class ExperienceComponent implements OnInit {
             timeOut: 4000,
           });
           this.initExpUser();
+          
+        this.expSeleccionada = null;
         },
         error: () => {
           this.toast.error('No se pudo editar la experiencia', 'Experiencia', {
@@ -138,19 +136,23 @@ export class ExperienceComponent implements OnInit {
   editImageExp(imagen: File) {
     const form = new FormData();
     form.append('imagen', imagen);
-    this.expService.editImageExp(form, this.expSeleccionada!.id).subscribe({
-      next: () => {
-        this.toast.info('Se actualizó la imagen', 'Experiencia', {
-          timeOut: 4000,
-        });
-        this.initExpUser();
-      },
-      error: () => {
-        this.toast.error('No se pudo cargar su imagen', 'Experiencia', {
-          timeOut: 5000,
-        });
-      },
-    });
+    if(this.expSeleccionada){
+      this.expService.editImageExp(form, this.expSeleccionada.id).subscribe({
+        next: () => {
+          this.toast.info('Se actualizó la imagen', 'Experiencia', {
+            timeOut: 4000,
+          });
+          this.initExpUser();
+          this.expSeleccionada = null;
+        },
+        error: () => {
+          this.toast.error('No se pudo cargar su imagen', 'Experiencia', {
+            timeOut: 5000,
+          });
+        },
+      });
+    }
+   
   }
   deleteExp() {
     if (this.expSeleccionada) {
@@ -160,6 +162,7 @@ export class ExperienceComponent implements OnInit {
             timeOut: 4000,
           });
           this.initExpUser();
+        this.expSeleccionada = null;
         },
         error: (error) => {
           this.toast.error('No se pudo eliminar', 'Experiencia', {

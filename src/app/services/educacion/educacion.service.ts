@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Educacion } from 'src/app/models/educacion.model';
 import { environment } from 'src/environment/environments';
 import { AuthenticationService } from '../auth/authentication.service';
+import { ResponseOk } from 'src/app/models/response-ok';
 
 @Injectable({
   providedIn: 'root',
@@ -31,10 +32,8 @@ export class EducacionService {
   }
 
 
-  getImageEdu(idEdu:number): Observable<Blob> {
-    return this.http.get(`${this.api}/getImageEdu/${idEdu}`, {
-      responseType: 'blob',
-    });
+  getImageEdu(idEdu:number): Observable<ResponseOk> {
+    return this.http.get<ResponseOk>(`${this.api}/getImageEdu/${idEdu}`);
   }
 
   postEdu(form: Educacion) {
