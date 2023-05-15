@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/auth/authentication.service';
 import { EditService } from 'src/app/services/edit/edit.service';
 
@@ -8,7 +9,7 @@ import { EditService } from 'src/app/services/edit/edit.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(readonly editService:EditService, readonly authService:AuthenticationService){
+  constructor(readonly editService:EditService, readonly authService:AuthenticationService, private readonly router:Router){
   }
 
   logOut(){
@@ -22,5 +23,12 @@ export class HeaderComponent {
   }
   disableEditMode(){
     this.editService.disableEditMode();
+  }
+
+  toLogin(){
+    this.router.navigate(['/login']);
+  }
+  toRegister(){
+    this.router.navigate(['/register']);
   }
 }

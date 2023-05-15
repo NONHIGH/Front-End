@@ -41,7 +41,7 @@ export class ExperienceComponent implements OnInit {
   initForm() {
     return this.fB.group({
       lugarTrabajo: ['', Validators.required],
-      rolTrabajo: ['', Validators.required],
+      tituloTrabajo: ['', Validators.required],
       fechaInicio: [
         '',
         [
