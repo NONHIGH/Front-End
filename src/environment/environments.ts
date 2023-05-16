@@ -1,4 +1,4 @@
 export const environment={
-    api:"https://backend-ppjr.onrender.com/api",
+    api:"https://weakwiw.azurewebsites.net/api",
     production:true
 }
