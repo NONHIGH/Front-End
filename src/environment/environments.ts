@@ -1,4 +1,4 @@
 export const environment={
-    api:"https://weakwiw.azurewebsites.net/api",
+    api:"https://app-back.azurewebsites.net/api",
     production:true
 }
